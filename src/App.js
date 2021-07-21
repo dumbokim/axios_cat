@@ -1,23 +1,35 @@
-import logo from './logo.svg';
+
+import axios from 'axios';
+import { useState, useEffect } from 'react'
 import './App.css';
 
 function App() {
+
+  const [getUrl, setGetUrl] = useState('');
+
+  useEffect(() => {
+  
+    axios.get('https://aws.random.cat/meow').then((url)=> {
+      setGetUrl(url.data.file);
+      console.log(url.data);
+    })
+
+  }, [])
+
+  const refresh = () => {
+
+    axios.get('https://aws.random.cat/meow').then((url)=> {
+      setGetUrl(url.data.file);
+      console.log(url.data);
+    })
+
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <img src={getUrl} alt='cat'/>
+      <button onClick={refresh}>refresh</button>
     </div>
   );
 }
